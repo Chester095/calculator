@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/cloud"
+        android:scaleType="centerCrop"/>
+
+
     <EditText
         android:id="@+id/editTextNumberDecimal"
         android:layout_width="match_parent"
