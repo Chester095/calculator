@@ -6,13 +6,152 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/cloud"
+        android:scaleType="centerCrop"/>
+
+
+    <EditText
+        android:id="@+id/editTextNumberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:ems="10"
+        android:hint="@string/enter_number"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_gravity="center"
+        android:columnCount="4"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal">
+
+        <Button
+            android:id="@+id/button_C"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_C"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_backspace"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_backspace"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_percent"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_percent"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_division"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_division"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_7"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_7"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_8"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_8"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_9"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_9"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_multiplication"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_multiplication"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_4"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_4"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_5"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_5"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_6"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_6"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_subtraction"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_subtraction"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_1"
+            style="@style/CustomAnimationButton"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_1"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_2"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_2"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_3"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_3"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_summation"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_summation"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_0"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_0"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_point"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_point"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/button_equally"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/_equally"
+            android:textSize="@dimen/button_text" />
+
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
