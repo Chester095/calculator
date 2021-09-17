@@ -18,9 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:ems="10"
+        android:gravity="bottom|right"
+        android:layout_margin="20dp"
         android:hint="@string/enter_number"
         android:importantForAutofill="no"
-        android:inputType="numberDecimal"
+        android:inputType="textMultiLine|numberDecimal"
+        android:textSize="@dimen/button_text"
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
