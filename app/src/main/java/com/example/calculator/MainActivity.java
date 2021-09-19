@@ -1,29 +1,29 @@
 package com.example.calculator;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "@@@";
     private TextView decimalNumberEditText;
     private StringBuilder numberText = new StringBuilder();
     private Button oneDigitButton, twoDigitButton, threeDigitButton, fourDigitButton, fiveDigitButton, sixDigitButton,
             sevenDigitButton, eightDigitButton, nineDigitButton, zeroDigitButton, pointButton, clearButton, backspaceButton,
             percentButton, divisionButton, multiplicationButton, subtractionButton, summationButton, equallyButton;
-    private boolean checkPoint = false;
+    private boolean checkPointFirstNumber = false;
+    private boolean checkLastResult = false;
+    private boolean checkPointSecondNumber = false;
     private boolean checkMathSymbol = false;
     private char mathSymbol;
     private int mathSymbolIndex = 0;
 
 
-    private View.OnClickListener numberClickListener = view -> onClickNumber(view);
-    private View.OnClickListener funcButtonClickListener = view -> onClickFunc(view);
-    private View.OnClickListener mathButtonClickListener = view -> onClickMath(view);
+    private final View.OnClickListener numberClickListener = this::onClickNumber;
+    private final View.OnClickListener funcButtonClickListener = this::onClickFunc;
+    private final View.OnClickListener mathButtonClickListener = this::onClickMath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         pointButton.setOnClickListener(numberClickListener);
         clearButton.setOnClickListener(funcButtonClickListener);
         backspaceButton.setOnClickListener(funcButtonClickListener);
-        percentButton.setOnClickListener(funcButtonClickListener);
+        percentButton.setOnClickListener(mathButtonClickListener);
         divisionButton.setOnClickListener(mathButtonClickListener);
         multiplicationButton.setOnClickListener(mathButtonClickListener);
         subtractionButton.setOnClickListener(mathButtonClickListener);
@@ -74,20 +74,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickNumber(View view) {
-//        Log.d(TAG, "onClick() - " + view);
-        if (view == oneDigitButton) numberText.append(1);
-        if (view == twoDigitButton) numberText.append(2);
-        if (view == threeDigitButton) numberText.append(3);
-        if (view == fourDigitButton) numberText.append(4);
-        if (view == fiveDigitButton) numberText.append(5);
-        if (view == sixDigitButton) numberText.append(6);
-        if (view == sevenDigitButton) numberText.append(7);
-        if (view == eightDigitButton) numberText.append(8);
-        if (view == nineDigitButton) numberText.append(9);
-        if (view == zeroDigitButton) numberText.append(0);
-        if (view == pointButton && !checkPoint) {
-            checkPoint = true;
-            numberText.append(".");
+        if (checkLastResult) {
+            clearTempVariable();
+            numberText.delete(0, numberText.length());
+            decimalNumberEditText.setText(numberText);
+        }
+        if (view == oneDigitButton)
+            numberText.append(1);
+        if (view == twoDigitButton)
+            numberText.append(2);
+        if (view == threeDigitButton)
+            numberText.append(3);
+        if (view == fourDigitButton)
+            numberText.append(4);
+        if (view == fiveDigitButton)
+            numberText.append(5);
+        if (view == sixDigitButton)
+            numberText.append(6);
+        if (view == sevenDigitButton)
+            numberText.append(7);
+        if (view == eightDigitButton)
+            numberText.append(8);
+        if (view == nineDigitButton)
+            numberText.append(9);
+        if (view == zeroDigitButton)
+            numberText.append(0);
+        if (view == pointButton) {
+            if (!checkPointFirstNumber && !checkMathSymbol) {
+                checkPointFirstNumber = true;
+                numberText.append(".");
+            } else if (!checkPointSecondNumber && checkMathSymbol) {
+                checkPointSecondNumber = true;
+                numberText.append(".");
+            }
         }
         decimalNumberEditText.setText(numberText);
     }
@@ -97,52 +116,129 @@ public class MainActivity extends AppCompatActivity {
             numberText.delete(0, numberText.length());
             clearTempVariable();
         }
-        if (view == backspaceButton && numberText.length() > 0) numberText.deleteCharAt(numberText.length() - 1);
+
+        if (view == backspaceButton && numberText.length() > 0) {
+            if (mathSymbolIndex + 1 == numberText.length()) {
+                checkMathSymbol = false;
+                mathSymbol = 0;
+            }
+            if (numberText.charAt(numberText.length() - 1) == '.') {
+                if (checkPointSecondNumber) {
+                    checkPointSecondNumber = false;
+                } else if (checkPointFirstNumber) {
+                    checkPointFirstNumber = false;
+                }
+            }
+            numberText.deleteCharAt(numberText.length() - 1);
+            checkLastResult = false;
+        }
         decimalNumberEditText.setText(numberText);
     }
 
     public void onClickMath(View view) {
         if (view == summationButton) {
-            if (!checkMathSymbol) {}
-            if ( mathSymbolIndex != numberText.length()) {
-
+            if (!checkMathSymbol) {
+                checkMathSymbol = true;
+                mathSymbol = '+';
+                mathSymbolIndex = numberText.length();
+                numberText.append(mathSymbol);
+            } else if (mathSymbolIndex + 1 == numberText.length()) {
+                mathSymbol = '+';
+                numberText.setCharAt(mathSymbolIndex, mathSymbol);
             } else {
+                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
                 checkMathSymbol = true;
                 mathSymbol = '+';
                 mathSymbolIndex = numberText.length();
                 numberText.append(mathSymbol);
             }
+            checkLastResult = false;
         }
         if (view == divisionButton) {
-            checkMathSymbol = true;
-            mathSymbol = '/';
-            mathSymbolIndex = numberText.length();
-            numberText.append(mathSymbol);
+            if (!checkMathSymbol) {
+                checkMathSymbol = true;
+                mathSymbol = '/';
+                mathSymbolIndex = numberText.length();
+                numberText.append(mathSymbol);
+            } else if (mathSymbolIndex + 1 == numberText.length()) {
+                mathSymbol = '/';
+                numberText.setCharAt(mathSymbolIndex, mathSymbol);
+            } else {
+                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
+                checkMathSymbol = true;
+                mathSymbol = '/';
+                mathSymbolIndex = numberText.length();
+                numberText.append(mathSymbol);
+            }
+            checkLastResult = false;
         }
         if (view == multiplicationButton) {
-            checkMathSymbol = true;
-            mathSymbol = '*';
-            mathSymbolIndex = numberText.length();
-            numberText.append(mathSymbol);
+            if (!checkMathSymbol) {
+                checkMathSymbol = true;
+                mathSymbol = '*';
+                mathSymbolIndex = numberText.length();
+                numberText.append(mathSymbol);
+            } else if (mathSymbolIndex + 1 == numberText.length()) {
+                mathSymbol = '*';
+                numberText.setCharAt(mathSymbolIndex, mathSymbol);
+            } else {
+                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
+                checkMathSymbol = true;
+                mathSymbol = '*';
+                mathSymbolIndex = numberText.length();
+                numberText.append(mathSymbol);
+            }
+            checkLastResult = false;
         }
         if (view == subtractionButton) {
-            checkMathSymbol = true;
-            mathSymbol = '-';
-            mathSymbolIndex = numberText.length();
-            numberText.append(mathSymbol);
+            if (!checkMathSymbol) {
+                checkMathSymbol = true;
+                mathSymbol = '-';
+                mathSymbolIndex = numberText.length();
+                numberText.append(mathSymbol);
+            } else if (mathSymbolIndex + 1 == numberText.length()) {
+                mathSymbol = '-';
+                numberText.setCharAt(mathSymbolIndex, mathSymbol);
+            } else {
+                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
+                checkMathSymbol = true;
+                mathSymbol = '-';
+                mathSymbolIndex = numberText.length();
+                numberText.append(mathSymbol);
+            }
+            checkLastResult = false;
         }
 
-        if (view == equallyButton) numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
-        /*  if (view == percentButton) numberText += "3";
+        if (view == percentButton) {
+            if (checkMathSymbol && mathSymbolIndex + 1 != numberText.length()) {
+                double firstNumber = Double.parseDouble(numberText.substring(0, mathSymbolIndex));
+                double secondNumber = Double.parseDouble(numberText.substring(mathSymbolIndex + 1, numberText.length()));
+                double tempSecondNumber = firstNumber / 100 * secondNumber;
+                numberText.delete(mathSymbolIndex + 1, numberText.length());
+                numberText.append(tempSecondNumber);
+                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
+                checkLastResult = true;
+            }
+        }
 
-         */
+        if (view == equallyButton && checkMathSymbol) {
+            numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
+            checkLastResult = true;
+        }
+
+
         decimalNumberEditText.setText(numberText);
     }
 
     private StringBuilder mathCalculation(StringBuilder numberText, char mathSymbol, int mathSymbolIndex) {
         StringBuilder result = new StringBuilder();
-        Double firstNumber = Double.valueOf(numberText.substring(0, mathSymbolIndex));
-        Double secondNumber = Double.valueOf(numberText.substring(mathSymbolIndex + 1, numberText.length()));
+        double secondNumber;
+        double firstNumber = Double.parseDouble(numberText.substring(0, mathSymbolIndex));
+        if (mathSymbolIndex + 1 == numberText.length()) {
+            secondNumber = firstNumber;
+        } else {
+            secondNumber = Double.parseDouble(numberText.substring(mathSymbolIndex + 1, numberText.length()));
+        }
         if (mathSymbol == '+') {
             result.append(firstNumber + secondNumber);
         } else if (mathSymbol == '-') {
@@ -151,18 +247,21 @@ public class MainActivity extends AppCompatActivity {
             result.append(firstNumber * secondNumber);
         } else if (mathSymbol == '/') {
             result.append(firstNumber / secondNumber);
-        } else if (mathSymbol == '%') {
-
         }
-//            Log.d(TAG, "result=" + result);
+        if (result.substring(result.length() - 2, result.length()).equals(".0")) {
+            result.delete(result.length() - 2, result.length());
+            checkPointFirstNumber = false;
+        }
+
         clearTempVariable();
         return result;
     }
 
     private void clearTempVariable() {
         mathSymbol = 0;
+        checkLastResult = false;
         checkMathSymbol = false;
-        checkPoint = true;
+        checkPointSecondNumber = false;
     }
 
 }
