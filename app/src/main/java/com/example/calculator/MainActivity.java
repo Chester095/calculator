@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private final View.OnClickListener numberClickListener = this::onClickNumber;
     private final View.OnClickListener funcButtonClickListener = this::onClickFunc;
     private final View.OnClickListener mathButtonClickListener = this::onClickMath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,30 @@ public class MainActivity extends AppCompatActivity {
         subtractionButton.setOnClickListener(mathButtonClickListener);
         summationButton.setOnClickListener(mathButtonClickListener);
         equallyButton.setOnClickListener(mathButtonClickListener);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("checkPointFirstNumber",checkPointFirstNumber);
+        outState.putBoolean("checkLastResult",checkLastResult);
+        outState.putBoolean("checkPointSecondNumber",checkPointSecondNumber);
+        outState.putBoolean("checkMathSymbol",checkPointFirstNumber);
+        outState.putInt("mathSymbolIndex",mathSymbolIndex);
+        outState.putChar("mathSymbol",mathSymbol);
+        outState.putString("numberText", String.valueOf(numberText));
+
+    }
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        checkPointFirstNumber = savedInstanceState.getBoolean("checkPointFirstNumber");
+        checkLastResult = savedInstanceState.getBoolean("checkLastResult");
+        checkPointSecondNumber = savedInstanceState.getBoolean("checkPointSecondNumber");
+        checkMathSymbol = savedInstanceState.getBoolean("checkMathSymbol");
+        mathSymbolIndex = savedInstanceState.getInt("mathSymbolIndex");
+        mathSymbol = savedInstanceState.getChar("mathSymbol");
+        numberText.append(savedInstanceState.getString("numberText"));
     }
 
     public void onClickNumber(View view) {
