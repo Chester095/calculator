@@ -2,4 +2,10 @@
 <resources>
     <dimen name="button_text">28sp</dimen>
     <dimen name="button_margin">2dp</dimen>
+    <dimen name="edit_text_height_vert">320dp</dimen>
+    <dimen name="edit_text_margin_vert">20dp</dimen>
+    <dimen name="edit_text_height_land">100dp</dimen>
+    <dimen name="edit_text_margin_land">20dp</dimen>
+    <dimen name="gridlayout_column_count_land">7</dimen>
+    <dimen name="gridlayout_column_count_vert">4</dimen>
 </resources>
