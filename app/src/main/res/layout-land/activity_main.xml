@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
     <EditText
         android:id="@+id/decimal_number_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="100dp"
         android:layout_margin="20dp"
         android:ems="10"
         android:gravity="bottom|end"
@@ -31,83 +31,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:columnCount="4"
+        android:columnCount="7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/decimal_number_edit_text">
-
-        <Button
-            android:id="@+id/clear_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_C"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/backspace_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_backspace"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/percent_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_percent"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/division_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_division"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/digit_seven_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_7"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/digit_eight_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_8"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/digit_nine_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_9"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/multiplication_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_multiplication"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/digit_four_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_4"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/digit_five_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_5"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/digit_six_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_6"
-            android:textSize="@dimen/button_text" />
-
-        <Button
-            android:id="@+id/subtraction_button"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_subtraction"
-            android:textSize="@dimen/button_text" />
 
         <Button
             android:id="@+id/digit_one_button"
@@ -129,15 +57,79 @@
             android:textSize="@dimen/button_text" />
 
         <Button
-            android:id="@+id/summation_button"
+            android:id="@+id/digit_four_button"
             android:background="@drawable/btn_rounded_corner"
-            android:text="@string/button_summation"
+            android:text="@string/button_4"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/clear_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_C"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/backspace_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_backspace"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/percent_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_percent"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/digit_five_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_5"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/digit_six_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_6"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/digit_seven_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_7"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/digit_eight_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_8"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/multiplication_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_multiplication"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/subtraction_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_subtraction"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/division_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_division"
+            android:textSize="@dimen/button_text" />
+
+        <Button
+            android:id="@+id/digit_nine_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_9"
             android:textSize="@dimen/button_text" />
 
         <Button
             android:id="@+id/digit_zero_button"
-            android:layout_row="4"
-            android:layout_column="0"
             android:layout_columnSpan="2"
             android:layout_gravity="fill"
             android:background="@drawable/btn_rounded_corner"
@@ -151,7 +143,15 @@
             android:textSize="@dimen/button_text" />
 
         <Button
+            android:id="@+id/summation_button"
+            android:background="@drawable/btn_rounded_corner"
+            android:text="@string/button_summation"
+            android:textSize="@dimen/button_text" />
+
+        <Button
             android:id="@+id/equally_button"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
             android:background="@drawable/btn_rounded_corner"
             android:text="@string/button_equally"
             android:textSize="@dimen/button_text" />
