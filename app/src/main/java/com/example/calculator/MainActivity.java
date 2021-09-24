@@ -9,29 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class MainActivity extends AppCompatActivity{
-    protected TextView decimalNumberEditText;
-    protected StringBuilder numberText = new StringBuilder();
-    protected Button oneDigitButton, twoDigitButton, threeDigitButton, fourDigitButton, fiveDigitButton, sixDigitButton,
+public class MainActivity extends AppCompatActivity {
+    public static TextView decimalNumberEditText;
+    public static StringBuilder numberText = new StringBuilder();
+    public static Button oneDigitButton, twoDigitButton, threeDigitButton, fourDigitButton, fiveDigitButton, sixDigitButton,
             sevenDigitButton, eightDigitButton, nineDigitButton, zeroDigitButton, pointButton, clearButton, backspaceButton,
             percentButton, divisionButton, multiplicationButton, subtractionButton, summationButton, equallyButton;
-    protected boolean checkPointFirstNumber = false;
-    protected boolean checkLastResult = false;
-    protected boolean checkPointSecondNumber = false;
-    protected boolean checkMathSymbol = false;
-    protected char mathSymbol;
-    protected int mathSymbolIndex = 0;
+    public static boolean checkPointFirstNumber = false;
+    public static boolean checkLastResult = false;
+    public static boolean checkPointSecondNumber = false;
+    public static boolean checkMathSymbol = false;
+    public static char mathSymbol;
+    public static int mathSymbolIndex = 0;
 
-
-
-    private final View.OnClickListener numberClickListener;
-
-    {
-        numberClickListener = this::onClickNumber;
-    }
-
-    private final View.OnClickListener funcButtonClickListener = this::onClickFunc;
-    private final View.OnClickListener mathButtonClickListener = this::onClickMath;
+    private final View.OnClickListener numberClickListener = Calculate::onClickNumber;
+    private final View.OnClickListener funcButtonClickListener = Calculate::onClickFunc;
+    private final View.OnClickListener mathButtonClickListener = Calculate::onClickMath;
 
 
     @Override
@@ -111,7 +104,6 @@ public class MainActivity extends AppCompatActivity{
         mathSymbol = savedInstanceState.getChar("mathSymbol");
         numberText.append(savedInstanceState.getString("numberText"));
     }
-
 
 
 }

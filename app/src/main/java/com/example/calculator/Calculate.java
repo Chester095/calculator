@@ -1,13 +1,13 @@
 package com.example.calculator;
 
+import static com.example.calculator.MainActivity.*;
 import android.view.View;
-import com.example.calculator.MainActivity.*;
 
-public class Calculate extends MainActivity{
-    private char multiplication = 'x', division = '/', subtraction = '-', summation='+',equally = '=', point = '.';
+public class Calculate{
+    private static char multiplication = 'x', division = '/', subtraction = '-', summation='+',equally = '=', point = '.';
 
-    public void onClickNumber(View view) {
-        if (checkLastResult) {
+    public static void onClickNumber(View view) {
+        if (MainActivity.checkLastResult) {
             clearTempVariable();
             numberText.delete(0, numberText.length());
             decimalNumberEditText.setText(numberText);
@@ -44,7 +44,7 @@ public class Calculate extends MainActivity{
         decimalNumberEditText.setText(numberText);
     }
 
-    public void onClickFunc(View view) {
+    public static void onClickFunc(View view) {
         if (view == clearButton) {
             numberText.delete(0, numberText.length());
             clearTempVariable();
@@ -66,7 +66,7 @@ public class Calculate extends MainActivity{
         decimalNumberEditText.setText(numberText);
     }
 
-    public void onClickMath(View view) {
+    public static void onClickMath(View view) {
         if (view == summationButton) {
             if (!checkMathSymbol) {
                 checkMathSymbol = true;
@@ -154,7 +154,7 @@ public class Calculate extends MainActivity{
         decimalNumberEditText.setText(numberText);
     }
 
-    private StringBuilder mathCalculation(StringBuilder numberText, char mathSymbol, int mathSymbolIndex) {
+    private static StringBuilder mathCalculation(StringBuilder numberText, char mathSymbol, int mathSymbolIndex) {
         StringBuilder result = new StringBuilder();
         double secondNumber;
         double firstNumber = Double.parseDouble(numberText.substring(0, mathSymbolIndex));
@@ -181,7 +181,7 @@ public class Calculate extends MainActivity{
         return result;
     }
 
-    private void clearTempVariable() {
+    private static void clearTempVariable() {
         mathSymbol = 0;
         checkLastResult = false;
         checkMathSymbol = false;
