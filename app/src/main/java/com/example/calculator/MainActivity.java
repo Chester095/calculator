@@ -1,12 +1,15 @@
 package com.example.calculator;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +28,22 @@ public class MainActivity extends AppCompatActivity {
     private final View.OnClickListener numberClickListener = Calculate::onClickNumber;
     private final View.OnClickListener funcButtonClickListener = Calculate::onClickFunc;
     private final View.OnClickListener mathButtonClickListener = Calculate::onClickMath;
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.isChecked()) {
+            item.setChecked(false);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            item.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override

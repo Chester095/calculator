@@ -20,4 +20,5 @@
     <string name="button_backspace" translatable="false">◄</string>
     <string name="button_percent" translatable="false">%</string>
     <string name="enter_number">Enter number</string>
+    <string name="dark_theme_check_button">Dark theme</string>
 </resources>
