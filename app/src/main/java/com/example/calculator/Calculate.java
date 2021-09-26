@@ -1,10 +1,37 @@
 package com.example.calculator;
 
-import static com.example.calculator.MainActivity.*;
+import static com.example.calculator.MainActivity.backspaceButton;
+import static com.example.calculator.MainActivity.checkLastResult;
+import static com.example.calculator.MainActivity.checkMathSymbol;
+import static com.example.calculator.MainActivity.checkPointFirstNumber;
+import static com.example.calculator.MainActivity.checkPointSecondNumber;
+import static com.example.calculator.MainActivity.clearButton;
+import static com.example.calculator.MainActivity.decimalNumberEditText;
+import static com.example.calculator.MainActivity.divisionButton;
+import static com.example.calculator.MainActivity.eightDigitButton;
+import static com.example.calculator.MainActivity.equallyButton;
+import static com.example.calculator.MainActivity.fiveDigitButton;
+import static com.example.calculator.MainActivity.fourDigitButton;
+import static com.example.calculator.MainActivity.mathSymbol;
+import static com.example.calculator.MainActivity.mathSymbolIndex;
+import static com.example.calculator.MainActivity.multiplicationButton;
+import static com.example.calculator.MainActivity.nineDigitButton;
+import static com.example.calculator.MainActivity.numberText;
+import static com.example.calculator.MainActivity.oneDigitButton;
+import static com.example.calculator.MainActivity.percentButton;
+import static com.example.calculator.MainActivity.pointButton;
+import static com.example.calculator.MainActivity.sevenDigitButton;
+import static com.example.calculator.MainActivity.sixDigitButton;
+import static com.example.calculator.MainActivity.subtractionButton;
+import static com.example.calculator.MainActivity.summationButton;
+import static com.example.calculator.MainActivity.threeDigitButton;
+import static com.example.calculator.MainActivity.twoDigitButton;
+import static com.example.calculator.MainActivity.zeroDigitButton;
+
 import android.view.View;
 
-public class Calculate{
-    private static char multiplication = 'x', division = '/', subtraction = '-', summation='+',equally = '=', point = '.';
+public class Calculate {
+    private static char multiplication = 'x', division = '/', subtraction = '-', summation = '+', equally = '=', point = '.';
 
     public static void onClickNumber(View view) {
         if (MainActivity.checkLastResult) {
@@ -156,13 +183,20 @@ public class Calculate{
 
     private static StringBuilder mathCalculation(StringBuilder numberText, char mathSymbol, int mathSymbolIndex) {
         StringBuilder result = new StringBuilder();
-        double secondNumber;
-        double firstNumber = Double.parseDouble(numberText.substring(0, mathSymbolIndex));
-        if (mathSymbolIndex + 1 == numberText.length()) {
-            secondNumber = firstNumber;
-        } else {
-            secondNumber = Double.parseDouble(numberText.substring(mathSymbolIndex + 1, numberText.length()));
+        double firstNumber = 0, secondNumber = 0;
+        if (numberText.length() > 1) {
+            if (mathSymbolIndex != 0) {
+                firstNumber = Double.parseDouble(numberText.substring(0, mathSymbolIndex));
+            } else {
+                firstNumber = Double.parseDouble(numberText.substring(mathSymbolIndex + 1, numberText.length()));
+            }
+            if (mathSymbolIndex + 1 != numberText.length()) {
+                secondNumber = Double.parseDouble(numberText.substring(mathSymbolIndex + 1, numberText.length()));
+            } else {
+                secondNumber = firstNumber;
+            }
         }
+
         if (mathSymbol == summation) {
             result.append(firstNumber + secondNumber);
         } else if (mathSymbol == subtraction) {
