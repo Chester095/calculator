@@ -1,5 +1,6 @@
 package com.example.calculator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean checkMathSymbol = false;
     public static char mathSymbol;
     public static int mathSymbolIndex = 0;
+    private final static String incomingText = "PARAM";
 
     private final View.OnClickListener numberClickListener = Calculate::onClickNumber;
     private final View.OnClickListener funcButtonClickListener = Calculate::onClickFunc;
@@ -50,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle == null){
+            return;
+        }
+        numberText.append(bundle.getString(incomingText));
+*/
+
         findViewById();
         setOnClickListener();
     }
