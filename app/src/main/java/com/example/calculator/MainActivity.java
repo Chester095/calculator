@@ -52,17 +52,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById();
+        setOnClickListener();
 
-        /*Intent intent = getIntent();
+        Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle == null){
             return;
         }
         numberText.append(bundle.getString(incomingText));
-*/
-
-        findViewById();
-        setOnClickListener();
     }
 
     private void findViewById() {
