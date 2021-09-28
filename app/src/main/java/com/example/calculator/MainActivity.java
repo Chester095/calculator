@@ -1,39 +1,70 @@
 package com.example.calculator;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 
 public class MainActivity extends AppCompatActivity {
-    private TextView decimalNumberEditText;
-    private StringBuilder numberText = new StringBuilder();
-    private Button oneDigitButton, twoDigitButton, threeDigitButton, fourDigitButton, fiveDigitButton, sixDigitButton,
+    public static TextView decimalNumberEditText;
+    public static StringBuilder numberText = new StringBuilder();
+    public static Button oneDigitButton, twoDigitButton, threeDigitButton, fourDigitButton, fiveDigitButton, sixDigitButton,
             sevenDigitButton, eightDigitButton, nineDigitButton, zeroDigitButton, pointButton, clearButton, backspaceButton,
             percentButton, divisionButton, multiplicationButton, subtractionButton, summationButton, equallyButton;
-    private boolean checkPointFirstNumber = false;
-    private boolean checkLastResult = false;
-    private boolean checkPointSecondNumber = false;
-    private boolean checkMathSymbol = false;
-    private char mathSymbol;
-    private int mathSymbolIndex = 0;
+    public static boolean checkPointFirstNumber = false;
+    public static boolean checkLastResult = false;
+    public static boolean checkPointSecondNumber = false;
+    public static boolean checkMathSymbol = false;
+    public static char mathSymbol;
+    public static int mathSymbolIndex = 0;
+    private final static String incomingText = "PARAM";
 
+    private final View.OnClickListener numberClickListener = Calculate::onClickNumber;
+    private final View.OnClickListener funcButtonClickListener = Calculate::onClickFunc;
+    private final View.OnClickListener mathButtonClickListener = Calculate::onClickMath;
 
-    private final View.OnClickListener numberClickListener = this::onClickNumber;
-    private final View.OnClickListener funcButtonClickListener = this::onClickFunc;
-    private final View.OnClickListener mathButtonClickListener = this::onClickMath;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.isChecked()) {
+            item.setChecked(false);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            item.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById();
+        setOnClickListener();
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle == null){
+            return;
+        }
+        numberText.append(bundle.getString(incomingText));
+    }
+
+    private void findViewById() {
         decimalNumberEditText = findViewById(R.id.decimal_number_edit_text);
-
         oneDigitButton = findViewById(R.id.digit_one_button);
         twoDigitButton = findViewById(R.id.digit_two_button);
         threeDigitButton = findViewById(R.id.digit_three_button);
@@ -53,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
         subtractionButton = findViewById(R.id.subtraction_button);          // вычитание
         summationButton = findViewById(R.id.summation_button);              // сумма
         equallyButton = findViewById(R.id.equally_button);                  // равно
+    }
 
+    private void setOnClickListener() {
         oneDigitButton.setOnClickListener(numberClickListener);
         twoDigitButton.setOnClickListener(numberClickListener);
         threeDigitButton.setOnClickListener(numberClickListener);
@@ -78,15 +111,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("checkPointFirstNumber",checkPointFirstNumber);
-        outState.putBoolean("checkLastResult",checkLastResult);
-        outState.putBoolean("checkPointSecondNumber",checkPointSecondNumber);
-        outState.putBoolean("checkMathSymbol",checkPointFirstNumber);
-        outState.putInt("mathSymbolIndex",mathSymbolIndex);
-        outState.putChar("mathSymbol",mathSymbol);
+        outState.putBoolean("checkPointFirstNumber", checkPointFirstNumber);
+        outState.putBoolean("checkLastResult", checkLastResult);
+        outState.putBoolean("checkPointSecondNumber", checkPointSecondNumber);
+        outState.putBoolean("checkMathSymbol", checkPointFirstNumber);
+        outState.putInt("mathSymbolIndex", mathSymbolIndex);
+        outState.putChar("mathSymbol", mathSymbol);
         outState.putString("numberText", String.valueOf(numberText));
 
     }
+
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -99,195 +133,5 @@ public class MainActivity extends AppCompatActivity {
         numberText.append(savedInstanceState.getString("numberText"));
     }
 
-    public void onClickNumber(View view) {
-        if (checkLastResult) {
-            clearTempVariable();
-            numberText.delete(0, numberText.length());
-            decimalNumberEditText.setText(numberText);
-        }
-        if (view == oneDigitButton)
-            numberText.append(1);
-        if (view == twoDigitButton)
-            numberText.append(2);
-        if (view == threeDigitButton)
-            numberText.append(3);
-        if (view == fourDigitButton)
-            numberText.append(4);
-        if (view == fiveDigitButton)
-            numberText.append(5);
-        if (view == sixDigitButton)
-            numberText.append(6);
-        if (view == sevenDigitButton)
-            numberText.append(7);
-        if (view == eightDigitButton)
-            numberText.append(8);
-        if (view == nineDigitButton)
-            numberText.append(9);
-        if (view == zeroDigitButton)
-            numberText.append(0);
-        if (view == pointButton) {
-            if (!checkPointFirstNumber && !checkMathSymbol) {
-                checkPointFirstNumber = true;
-                numberText.append(".");
-            } else if (!checkPointSecondNumber && checkMathSymbol) {
-                checkPointSecondNumber = true;
-                numberText.append(".");
-            }
-        }
-        decimalNumberEditText.setText(numberText);
-    }
-
-    public void onClickFunc(View view) {
-        if (view == clearButton) {
-            numberText.delete(0, numberText.length());
-            clearTempVariable();
-        }
-
-        if (view == backspaceButton && numberText.length() > 0) {
-            if (mathSymbolIndex + 1 == numberText.length()) {
-                checkMathSymbol = false;
-                mathSymbol = 0;
-            }
-            if (numberText.charAt(numberText.length() - 1) == '.') {
-                if (checkPointSecondNumber) {
-                    checkPointSecondNumber = false;
-                } else if (checkPointFirstNumber) {
-                    checkPointFirstNumber = false;
-                }
-            }
-            numberText.deleteCharAt(numberText.length() - 1);
-            checkLastResult = false;
-        }
-        decimalNumberEditText.setText(numberText);
-    }
-
-    public void onClickMath(View view) {
-        if (view == summationButton) {
-            if (!checkMathSymbol) {
-                checkMathSymbol = true;
-                mathSymbol = '+';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            } else if (mathSymbolIndex + 1 == numberText.length()) {
-                mathSymbol = '+';
-                numberText.setCharAt(mathSymbolIndex, mathSymbol);
-            } else {
-                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
-                checkMathSymbol = true;
-                mathSymbol = '+';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            }
-            checkLastResult = false;
-        }
-        if (view == divisionButton) {
-            if (!checkMathSymbol) {
-                checkMathSymbol = true;
-                mathSymbol = '/';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            } else if (mathSymbolIndex + 1 == numberText.length()) {
-                mathSymbol = '/';
-                numberText.setCharAt(mathSymbolIndex, mathSymbol);
-            } else {
-                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
-                checkMathSymbol = true;
-                mathSymbol = '/';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            }
-            checkLastResult = false;
-        }
-        if (view == multiplicationButton) {
-            if (!checkMathSymbol) {
-                checkMathSymbol = true;
-                mathSymbol = '*';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            } else if (mathSymbolIndex + 1 == numberText.length()) {
-                mathSymbol = '*';
-                numberText.setCharAt(mathSymbolIndex, mathSymbol);
-            } else {
-                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
-                checkMathSymbol = true;
-                mathSymbol = '*';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            }
-            checkLastResult = false;
-        }
-        if (view == subtractionButton) {
-            if (!checkMathSymbol) {
-                checkMathSymbol = true;
-                mathSymbol = '-';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            } else if (mathSymbolIndex + 1 == numberText.length()) {
-                mathSymbol = '-';
-                numberText.setCharAt(mathSymbolIndex, mathSymbol);
-            } else {
-                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
-                checkMathSymbol = true;
-                mathSymbol = '-';
-                mathSymbolIndex = numberText.length();
-                numberText.append(mathSymbol);
-            }
-            checkLastResult = false;
-        }
-
-        if (view == percentButton) {
-            if (checkMathSymbol && mathSymbolIndex + 1 != numberText.length()) {
-                double firstNumber = Double.parseDouble(numberText.substring(0, mathSymbolIndex));
-                double secondNumber = Double.parseDouble(numberText.substring(mathSymbolIndex + 1, numberText.length()));
-                double tempSecondNumber = firstNumber / 100 * secondNumber;
-                numberText.delete(mathSymbolIndex + 1, numberText.length());
-                numberText.append(tempSecondNumber);
-                numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
-                checkLastResult = true;
-            }
-        }
-
-        if (view == equallyButton && checkMathSymbol) {
-            numberText = mathCalculation(numberText, mathSymbol, mathSymbolIndex);
-            checkLastResult = true;
-        }
-
-
-        decimalNumberEditText.setText(numberText);
-    }
-
-    private StringBuilder mathCalculation(StringBuilder numberText, char mathSymbol, int mathSymbolIndex) {
-        StringBuilder result = new StringBuilder();
-        double secondNumber;
-        double firstNumber = Double.parseDouble(numberText.substring(0, mathSymbolIndex));
-        if (mathSymbolIndex + 1 == numberText.length()) {
-            secondNumber = firstNumber;
-        } else {
-            secondNumber = Double.parseDouble(numberText.substring(mathSymbolIndex + 1, numberText.length()));
-        }
-        if (mathSymbol == '+') {
-            result.append(firstNumber + secondNumber);
-        } else if (mathSymbol == '-') {
-            result.append(firstNumber - secondNumber);
-        } else if (mathSymbol == '*') {
-            result.append(firstNumber * secondNumber);
-        } else if (mathSymbol == '/') {
-            result.append(firstNumber / secondNumber);
-        }
-        if (result.substring(result.length() - 2, result.length()).equals(".0")) {
-            result.delete(result.length() - 2, result.length());
-            checkPointFirstNumber = false;
-        }
-
-        clearTempVariable();
-        return result;
-    }
-
-    private void clearTempVariable() {
-        mathSymbol = 0;
-        checkLastResult = false;
-        checkMathSymbol = false;
-        checkPointSecondNumber = false;
-    }
 
 }
